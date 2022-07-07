@@ -1,14 +1,8 @@
 import React from 'react';
-// import Header from '../_layout/header/Header';
-// import HamburgerMenu from '../_layout/header/HamburgerMenu';
+import Filtering from '../components/main/Filtering';
 
 function Main() {
-  return (
-    <>
-      {/* <Header /> */}
-      {/* <HamburgerMenu /> */}
-    </>
-  );
+  return <Filtering />;
 }
 
 export default Main;
