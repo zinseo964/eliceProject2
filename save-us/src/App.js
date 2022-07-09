@@ -5,7 +5,6 @@ import Header from './_layout/header/Header';
 import HamburgerMenu from './_layout/header/HamburgerMenu';
 import Main from './pages/Main';
 import MapView from './components/map/MapView';
-// import Mypage from './components/mypage/Mypage';
 
 function App() {
   return (

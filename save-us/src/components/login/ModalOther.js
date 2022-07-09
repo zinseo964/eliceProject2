@@ -1,11 +1,14 @@
+/* ref : https://phrygia.github.io/react/2021-09-21-react-modal/ */
+// 사용하지 않는 코드입니다.
 import { React, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
+// import PropTypes from 'prop-types';
+// import Modal from './Modal';
 import Modal from '../modal/Modal';
-import Leave from './Leave';
 
-function Mypage() {
+function ModalBtn2() {
   const [isOpenModal, setOpenModal] = useState(false);
 
   const onClickToggleModal = useCallback(() => {
@@ -16,11 +19,7 @@ function Mypage() {
     <div>
       <Main>
         <Title>Mypage</Title>
-        {isOpenModal && (
-          <Modal onClickToggleModal={onClickToggleModal}>
-            <Leave />
-          </Modal>
-        )}
+        {isOpenModal && <Modal onClickToggleModal={onClickToggleModal} />}
         <ul>
           <li>
             <Link to="/">개인정보수정</Link>
@@ -51,20 +50,8 @@ const Title = styled.h3`
   text-align: center;
 `;
 
-// const DialogButton = styled.button`
-//   width: 160px;
-//   height: 48px;
-//   background-color: #ffa000;
-//   color: white;
-//   font-size: 1.2rem;
-//   font-weight: 400;
-//   border-radius: 4px;
-//   border: none;
-//   cursor: pointer;
+// ModalBtn.propTypes = {
+//   buttonName: PropTypes.string.isRequired,
+// };
 
-//   &:hover {
-//     transform: translateY(-1px);
-//   }
-// `;
-
-export default Mypage;
+export default ModalBtn2;
