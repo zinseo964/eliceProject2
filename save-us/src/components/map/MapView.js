@@ -2,6 +2,7 @@
 import { React, useEffect, useState } from 'react';
 import { Map, MapMarker, useMap } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
+import Filtering from '../main/Filtering';
 
 function InfoWindowContent({ data }) {
   return (
@@ -134,27 +135,30 @@ function MapView() {
   // console.log(_rescueList);
 
   return (
-    <Map // 지도를 표시할 Container
-      center={{
-        // 지도의 중심좌표
-        lat: 36.33689689105572,
-        lng: 127.4495082397018,
-      }}
-      style={{
-        // 지도의 크기
-        width: '100%',
-        height: '100vh',
-      }}
-      level={3} // 지도의 확대 레벨
-    >
-      {rescueList.map((rescue) => (
-        <EventMarkerContainer
-          key={`EventMarkerContainer-${rescue.latlng.lat}-${rescue.latlng.lng}`}
-          position={rescue.latlng}
-          content={rescue.content}
-        />
-      ))}
-    </Map>
+    <>
+      <Filtering />
+      <Map // 지도를 표시할 Container
+        center={{
+          // 지도의 중심좌표
+          lat: 36.33689689105572,
+          lng: 127.4495082397018,
+        }}
+        style={{
+          // 지도의 크기
+          width: '100%',
+          height: '100vh',
+        }}
+        level={3} // 지도의 확대 레벨
+      >
+        {rescueList.map((rescue) => (
+          <EventMarkerContainer
+            key={`EventMarkerContainer-${rescue.latlng.lat}-${rescue.latlng.lng}`}
+            position={rescue.latlng}
+            content={rescue.content}
+          />
+        ))}
+      </Map>
+    </>
   );
 }
 

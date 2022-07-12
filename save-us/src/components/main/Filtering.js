@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Filtering() {
+  const [toggleList, setToggleList] = useState(true);
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -21,11 +25,20 @@ function Filtering() {
         <button type="button">구조</button>
         <button type="button">목격</button>
       </div>
-
-      <button type="button" style={{ height: '40px' }}>
-        지도 보기
+      <button
+        type="button"
+        style={{ height: '40px' }}
+        onClick={() => {
+          if (toggleList) {
+            navigate('/lostMap');
+          } else {
+            navigate('/');
+          }
+          setToggleList((toggle) => !toggle);
+        }}
+      >
+        {toggleList ? 'true' : 'false'}
       </button>
-
       <div>필터</div>
     </div>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import Filtering from '../components/main/Filtering';
 import RescueList from '../components/main/RescueList';
 
-function Main() {
+export default function Main() {
   return (
     <>
       <Filtering />
@@ -10,5 +10,3 @@ function Main() {
     </>
   );
 }
-
-export default Main;
