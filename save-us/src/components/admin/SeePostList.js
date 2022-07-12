@@ -8,7 +8,7 @@ function LostList() {
   const [myLostList, setmyLostList] = useState([]);
 
   async function getList() {
-    const res = await fetch('/MypageLostListMockData.json', {
+    const res = await fetch('/LostListMockData.json', {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -28,8 +28,8 @@ function LostList() {
     <div>
       <MenuBar />
       <div>
-        <h2 style={{ display: 'inline' }}>분실 신고 리스트</h2>
-        <span>회원님이 등록한 분실 신고 목록입니다.</span>
+        <h2 style={{ display: 'inline' }}>목격 신고 리스트</h2>
+        <span>회원님이 등록한 목격 신고 목록입니다.</span>
       </div>
       <hr
         style={{

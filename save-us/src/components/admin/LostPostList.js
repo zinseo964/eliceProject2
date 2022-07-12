@@ -8,7 +8,7 @@ function LostList() {
   const [myLostList, setmyLostList] = useState([]);
 
   async function getList() {
-    const res = await fetch('/MypageLostListMockData.json', {
+    const res = await fetch('/LostListMockData.json', {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
