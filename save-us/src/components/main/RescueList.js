@@ -1,132 +1,140 @@
 /* eslint-disable no-unused-vars */
 import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import useFetch from '../../hook/useFetch';
+import Rescue from './Rescue';
 
-function RescueList() {
+export default function RescueList() {
   const [rescueList, setRescueList] = useState([]);
   const [target, setTarget] = useState(null);
 
-  async function getRescue() {
-    useEffect(() => {
-      const asyncGetRescue = async () => {
-        const res = await fetch(
-          `${process.env.REACT_APP_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}/api/rescue/rescues`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
-          },
-        );
-        const data = await res.json();
-        setRescueList(data.posts);
-      };
-      asyncGetRescue();
-    }, []);
-  }
+  const { data, error, isLoading } = useFetch('api/rescue/rescues') || {};
+  console.log(data);
 
-  // function InfiniteScroll() {
-  //   async function intersectionHandler([entry], observer) {
-  //     if (entry.isIntersecting) {
-  //       observer.unobserve(entry.target);
-  //       await getRescue();
-  //       observer.observe(entry.target);
+  if (!data) return 'Loading..';
+
+  useEffect(() => {
+    setRescueList(() => data.posts);
+  }, []);
+
+  // return <Rescue rescueList={data} />;
+  // 체크박스 품목 구성을 위해 종류 추출
+  // const getSpecies = (animalList) => {
+  //   const species = [];
+  //   animalList.forEach((animal) => {
+  //     // [개]믹스견, [고양이]한국고양이라고 들어오는 데이터에서 개 or 고양이 추출
+  //     const extractedSpecies = animal.kindCode.slice(1, 4).split(']')[0];
+  //     if (species.indexOf(extractedSpecies) === -1) {
+  //       species.push(extractedSpecies);
   //     }
-  //   }
+  //   });
+  //   return species;
+  // };
+  // getSpecies(rescueList);
 
-  //   useEffect(() => {
-  //     let observer;
-  //     if (target) {
-  //       observer = new IntersectionObserver(intersectionHandler, {
-  //         threshold: 0.9,
-  //       });
-  //       observer.observe(target);
+  // const getBreed = (animalList) => {
+  //   const breed = [];
+  //   animalList.forEach((animal) => {
+  //     // [개]믹스견, [고양이]한국고양이라고 들어오는 데이터에서 믹스견 or 한국고양이 추출
+  //     const extractedBreed = animal.kindCode.slice(3).split(' ')[1];
+  //     if (breed.indexOf(extractedBreed) === -1) {
+  //       breed.push(extractedBreed);
   //     }
-  //     return () => observer && observer.disconnect();
-  //   }, [target]);
-  // }
-  // InfiniteScroll();
+  //   });
+  //   return breed;
+  // };
+  // getSpecies(rescueList);
 
-  getRescue();
+  // const [checked, setChecked] = useState([]);
 
-  return (
-    <main
-      style={{
-        display: 'inline-flex',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        gap: '20px',
-        padding: '20px',
-      }}
-    >
-      {rescueList.map((rescue) => {
-        const {
-          happenDate,
-          happenPlace,
-          kindCode,
-          imgUrl,
-          sexCd,
-          neuterYn,
-          desertionNo,
-        } = rescue;
+  // const checkboxLists = () =>
+  //   gender.map((value, index) => (
+  //     <div key={index}>
+  //       <span>{value}</span>
+  //       <input
+  //         type="checkbox"
+  //         onChange={() => handleToggle(value)}
+  //         checked={checked.indexOf(value) !== -1}
+  //         value={value}
+  //       />
+  //     </div>
+  //   ));
 
-        let sex;
-        if (sexCd === 'M') {
-          sex = '수컷';
-        } else if (sexCd === 'F') {
-          sex = '암컷';
-        } else {
-          sex = '미상';
-        }
-        let neutralization;
-        if (neuterYn === 'Y') {
-          neutralization = '완료';
-        } else if (neuterYn === 'N') {
-          neutralization = '미완료';
-        } else {
-          neutralization = '미상';
-        }
-        return (
-          <article key={desertionNo}>
-            <Link
-              to={`/rescue/${desertionNo}`}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '350px',
-                height: '400px',
-              }}
-            >
-              <img
-                src={imgUrl}
-                alt="rescued animal"
-                style={{
-                  width: '350px',
-                  height: '270px',
-                  objectFit: 'cover',
-                }}
-              />
-              <section
-                style={{
-                  backgroundColor: '#ffd149',
-                  fontStyle: 'none',
-                  height: '130px',
-                }}
-              >
-                <div>접수일: {happenDate}</div>
-                <div>발견장소: {happenPlace}</div>
-                <div>품종: {kindCode}</div>
-                <div>성별: {sex}</div>
-                <div>중성화 여부: {neutralization}</div>
-              </section>
-            </Link>
-          </article>
-        );
-      })}
-      <div ref={setTarget} />
-    </main>
-  );
+  // return (
+  //   <main
+  //     style={{
+  //       display: 'inline-flex',
+  //       flexWrap: 'wrap',
+  //       justifyContent: 'flex-start',
+  //       gap: '20px',
+  //       padding: '20px',
+  //     }}
+  //   >
+  //     {/* {rescueList.map((rescue) => {
+  //       const {
+  //         happenDate,
+  //         happenPlace,
+  //         kindCode,
+  //         imgUrl,
+  //         sexCd,
+  //         neuterYn,
+  //         desertionNo,
+  //       } = rescue;
+
+  //       let sex;
+  //       if (sexCd === 'M') {
+  //         sex = '수컷';
+  //       } else if (sexCd === 'F') {
+  //         sex = '암컷';
+  //       } else {
+  //         sex = '미상';
+  //       }
+  //       let neutralization;
+  //       if (neuterYn === 'Y') {
+  //         neutralization = '완료';
+  //       } else if (neuterYn === 'N') {
+  //         neutralization = '미완료';
+  //       } else {
+  //         neutralization = '미상';
+  //       }
+  //       return (
+  //         <article key={desertionNo}>
+  //           <Link
+  //             to={`/rescue/${desertionNo}`}
+  //             style={{
+  //               display: 'flex',
+  //               flexDirection: 'column',
+  //               width: '350px',
+  //               height: '400px',
+  //             }}
+  //           >
+  //             <img
+  //               src={imgUrl}
+  //               alt="rescued animal"
+  //               style={{
+  //                 width: '350px',
+  //                 height: '270px',
+  //                 objectFit: 'cover',
+  //               }}
+  //             />
+  //             <section
+  //               style={{
+  //                 backgroundColor: '#ffd149',
+  //                 fontStyle: 'none',
+  //                 height: '130px',
+  //               }}
+  //             >
+  //               <div>접수일: {happenDate}</div>
+  //               <div>발견장소: {happenPlace}</div>
+  //               <div>품종: {kindCode}</div>
+  //               <div>성별: {sex}</div>
+  //               <div>중성화 여부: {neutralization}</div>
+  //             </section>
+  //           </Link>
+  //         </article>
+  //       );
+  //     })}
+  //     <div ref={setTarget} /> */}
+  //   </main>
+  // );
 }
-
-export default RescueList;
