@@ -1,54 +1,61 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import useData from '../../hook/useData';
 
-function RescueList() {
+export default async function RescueList() {
   const [rescueList, setRescueList] = useState([]);
   const [target, setTarget] = useState(null);
 
-  async function getRescue() {
-    useEffect(() => {
-      const asyncGetRescue = async () => {
-        const res = await fetch(
-          `${process.env.REACT_APP_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}/api/rescue/rescues`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
-          },
-        );
-        const data = await res.json();
-        setRescueList(data.posts);
-      };
-      asyncGetRescue();
-    }, []);
-  }
+  const data = await useData('api/rescue/rescues');
+  useEffect(() => {
+    setRescueList(() => data.post);
+  }, []);
 
-  // function InfiniteScroll() {
-  //   async function intersectionHandler([entry], observer) {
-  //     if (entry.isIntersecting) {
-  //       observer.unobserve(entry.target);
-  //       await getRescue();
-  //       observer.observe(entry.target);
+  console.log(data);
+
+  // 체크박스 품목 구성을 위해 종류 추출
+  // const getSpecies = (animalList) => {
+  //   const species = [];
+  //   animalList.forEach((animal) => {
+  //     // [개]믹스견, [고양이]한국고양이라고 들어오는 데이터에서 개 or 고양이 추출
+  //     const extractedSpecies = animal.kindCode.slice(1, 4).split(']')[0];
+  //     if (species.indexOf(extractedSpecies) === -1) {
+  //       species.push(extractedSpecies);
   //     }
-  //   }
+  //   });
+  //   return species;
+  // };
+  // getSpecies(rescueList);
 
-  //   useEffect(() => {
-  //     let observer;
-  //     if (target) {
-  //       observer = new IntersectionObserver(intersectionHandler, {
-  //         threshold: 0.9,
-  //       });
-  //       observer.observe(target);
+  // const getBreed = (animalList) => {
+  //   const breed = [];
+  //   animalList.forEach((animal) => {
+  //     // [개]믹스견, [고양이]한국고양이라고 들어오는 데이터에서 믹스견 or 한국고양이 추출
+  //     const extractedBreed = animal.kindCode.slice(3).split(' ')[1];
+  //     if (breed.indexOf(extractedBreed) === -1) {
+  //       breed.push(extractedBreed);
   //     }
-  //     return () => observer && observer.disconnect();
-  //   }, [target]);
-  // }
-  // InfiniteScroll();
+  //   });
+  //   return breed;
+  // };
+  // getSpecies(rescueList);
 
-  getRescue();
+  // const [checked, setChecked] = useState([]);
+
+  // const checkboxLists = () =>
+  //   gender.map((value, index) => (
+  //     <div key={index}>
+  //       <span>{value}</span>
+  //       <input
+  //         type="checkbox"
+  //         onChange={() => handleToggle(value)}
+  //         checked={checked.indexOf(value) !== -1}
+  //         value={value}
+  //       />
+  //     </div>
+  //   ));
 
   return (
     <main
@@ -60,7 +67,7 @@ function RescueList() {
         padding: '20px',
       }}
     >
-      {rescueList.map((rescue) => {
+      {/* {rescueList.map((rescue) => {
         const {
           happenDate,
           happenPlace,
@@ -123,10 +130,8 @@ function RescueList() {
             </Link>
           </article>
         );
-      })}
+      })} */}
       <div ref={setTarget} />
     </main>
   );
 }
-
-export default RescueList;
